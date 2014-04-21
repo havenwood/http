@@ -24,6 +24,7 @@ group :test do
   gem 'rubocop', '~> 0.19.0', :platforms => [:ruby_19, :ruby_20, :ruby_21]
   gem 'simplecov', :require => false
   gem 'yardstick'
+  gem 'faraday'
 end
 
 # Specify your gem's dependencies in http.gemspec
