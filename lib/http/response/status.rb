@@ -58,6 +58,11 @@ module HTTP
         510 => 'Not Extended'
       }.freeze
 
+      def initialize(code)
+        fail TypeError, "..." unless code.respond_to? :to_i
+        fail Error, "Invalid code: #{code.inspect}" unless REASONS.has_key? to_i
+      end
+
       # Status code
       #
       # @return [Fixnum]

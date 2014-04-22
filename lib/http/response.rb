@@ -11,13 +11,15 @@ module HTTP
 
     include HTTP::Headers::Mixin
 
+    # @deprecated
+    STATUS_CODES = Status::REASON
+
+    # @deprecated
+    SYMBOL_TO_STATUS_CODE = Hash[STATUS_CODES.map { |code, msg| [msg.downcase.gsub(/\s|-/, '_').to_sym, code] }].freeze
+
     attr_reader :status
     attr_reader :body
     attr_reader :uri
-
-    # Status aliases! TIMTOWTDI!!! (Want to be idiomatic? Just use status :)
-    alias_method :code,        :status
-    alias_method :status_code, :status
 
     def initialize(status, version, headers, body, uri = nil) # rubocop:disable ParameterLists
       @version, @body, @uri = version, body, uri
@@ -27,6 +29,10 @@ module HTTP
     end
 
     def_delegator :status, :reason
+
+    # Status code aliases! TIMTOWTDI!!! (Want to be idiomatic? Just use status :)
+    def_delegator :status, :code
+    def_delegator :status, :code, :status_code
 
     # Returns an Array ala Rack: `[status, headers, body]`
     def to_a
